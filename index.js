@@ -8,8 +8,10 @@ dotenv.config();
 const app = express();
 
 connectToDatabase();
-app.get("/", (req, res) => {
-    res.status(200).send("Hello World");
+
+app.get("/tasks", (req, res) => {
+    const tasks = [{ description: "Estudar programção", isCompleted: false }];
+    res.status(200).send(tasks);
 });
 
 app.listen(8000, () => {
