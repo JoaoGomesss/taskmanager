@@ -1,4 +1,5 @@
 const TaskModel = require("../models/task.model");
+const mongoose = require("mongoose");
 
 class TaskController {
     constructor(req, res) {
@@ -41,6 +42,44 @@ class TaskController {
             this.res.status(201).send(newTask);
         } catch (error) {
             this.res.status(500).send(error.message);
+        }
+    }
+
+    async update() {
+        try {
+            const taskId = this.req.params.id;
+            const taskData = this.req.body;
+
+            if (!taskData || typeof taskData !== "object") {
+                return this.res
+                    .status(400)
+                    .send("Dados inválidos fornecidos para atualização.");
+            }
+
+            const taskToUpdate = await TaskModel.findById(taskId);
+            if (!taskToUpdate) {
+                return notFoundError(this.res);
+            }
+
+            const allowedUpdates = ["isCompleted"];
+
+            const requestUpdates = Object.keys(taskData);
+
+            for (this.update of requestUpdates) {
+                if (allowedUpdates.includes(this.update)) {
+                    taskToUpdate[this.update] = taskData[this.update];
+                } else {
+                    return notAllowedFieldsToUptadeError(this.res);
+                }
+            }
+
+            await taskToUpdate.save();
+            return this.res.status(200).send(taskToUpdate);
+        } catch (error) {
+            if (error instanceof mongoose.Error.CastError) {
+                return objectIdCastError(this.res);
+            }
+            return this.res.status(500).send(error.message);
         }
     }
 }
