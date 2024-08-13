@@ -1,30 +1,16 @@
-require("express");
+const express = require("express");
+
+const TaskController = require("../controllers/task.controller");
 const TaskModel = require("../models/task.model");
 
-const router = express.Router;
+const router = express.Router();
 
 router.get("/", async (req, res) => {
-    try {
-        const tasks = await TaskModel.find({});
-        res.status(200).send(tasks);
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
+    return new TaskController(req, res).getTasks();
 });
 
 router.get("/:id", async (req, res) => {
-    try {
-        const taskId = req.params.id;
-        const task = await TaskModel.findById(taskId);
-
-        if (!task) {
-            return res.status(404).send("Essa tarefa não foi encontrada");
-        }
-
-        return res.status(200).send(task);
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
+    return new TaskController(req, res).getTasksById();
 });
 
 router.post("/", async (req, res) => {
@@ -83,10 +69,6 @@ router.delete("/:id", async (req, res) => {
     } catch (error) {
         res.status(500).send(error.message);
     }
-});
-
-router.listen(8000, () => {
-    console.log("Listening on port 8000");
 });
 
 module.exports = router;
