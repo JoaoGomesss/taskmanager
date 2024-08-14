@@ -1,5 +1,6 @@
 const TaskModel = require("../models/task.model");
 const mongoose = require("mongoose");
+const { notFoundError } = require("../errors/mongodb.errors");
 
 class TaskController {
     constructor(req, res) {
@@ -22,9 +23,7 @@ class TaskController {
             const task = await TaskModel.findById(taskId);
 
             if (!task) {
-                return this.res
-                    .status(404)
-                    .send("Essa tarefa não foi encontrada");
+                return notFoundError(this.res);
             }
 
             return this.res.status(200).send(task);
@@ -51,9 +50,7 @@ class TaskController {
             const taskData = this.req.body;
 
             if (!taskData || typeof taskData !== "object") {
-                return this.res
-                    .status(400)
-                    .send("Dados inválidos fornecidos para atualização.");
+                return notFoundError(this.res);
             }
 
             const taskToUpdate = await TaskModel.findById(taskId);
@@ -90,9 +87,7 @@ class TaskController {
             const taskToDelete = await TaskModel.findById(taskId);
 
             if (!taskToDelete) {
-                return this.res
-                    .status(404)
-                    .send("Essa tarefa não foi encontrada");
+                return notFoundError(this.res);
             }
 
             const deletedTask = await TaskModel.findByIdAndDelete(taskId);
