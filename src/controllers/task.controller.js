@@ -1,6 +1,7 @@
 const TaskModel = require("../models/task.model");
 const mongoose = require("mongoose");
 const { notFoundError } = require("../errors/mongodb.errors");
+const { notAllowedFieldsToUptadeError } = require("../errors/general.errors");
 
 class TaskController {
     constructor(req, res) {
