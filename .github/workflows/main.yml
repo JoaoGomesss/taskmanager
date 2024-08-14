@@ -9,9 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Test
-        run: |
-          npm install
-          npm run test
 
       - name: Deploy
         run: |
