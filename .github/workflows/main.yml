@@ -1,4 +1,5 @@
 on:
+  pull_request:
   push:
     branches: [main]
 
@@ -7,7 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Test
+        run: |
+          npm install
+          npm run test
 
-      - name: Deploy to production
+      - name: Deploy
         run: |
           curl "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
