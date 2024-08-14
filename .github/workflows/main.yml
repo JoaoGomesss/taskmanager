@@ -9,6 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Deploy
+      - name: Deploy to production
         run: |
           curl "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
