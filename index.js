@@ -10,8 +10,8 @@ dotenv.config();
 const app = express();
 const corsOptions = {
     origin: [
-        "https://taskmanager-vq5u.onrender.com/tasks",
-        "http://localhost:3000",
+        "https://taskmanager-vq5u.onrender.com",
+        "https://taskmanager-4x4.pages.dev",
     ],
     credentials: true,
     optionSuccessStatus: 200,
